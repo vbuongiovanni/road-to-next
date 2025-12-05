@@ -2,10 +2,12 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import tseslint from 'typescript-eslint';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  ...tseslint.configs.recommended,
   {
     plugins: {
       'simple-import-sort': simpleImportSort,
