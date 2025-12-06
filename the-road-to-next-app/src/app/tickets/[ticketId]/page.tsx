@@ -1,4 +1,10 @@
-import { initialTickets } from '@/data';
+import Link from 'next/link';
+import { Placeholder } from '@/components/custom/placeholder';
+import { buttonVariants } from '@/components/ui/button';
+import { TicketItem } from '@/features/ticket/component/ticketItem';
+import { initialTickets } from '@/lib/data';
+import { Paths } from '@/lib/paths';
+import { buildRoute } from '@/lib/utils';
 
 type TTicketPage = {
   params: Promise<{ ticketId: string }>;
@@ -8,14 +14,22 @@ const TicketPage = async ({ params }: TTicketPage) => {
   const { ticketId } = await params;
   const ticket = initialTickets.find((t) => t.id === ticketId);
   if (!ticket) {
-    return <p>Ticket not found</p>;
+    return (
+      <Placeholder
+        label='Ticket not found'
+        button={
+          <Link
+            href={buildRoute(Paths.Tickets)}
+            className={buttonVariants({ variant: 'outline' })}>
+            Go to Tickets
+          </Link>
+        }
+      />
+    );
   }
-  const { title, content, status } = ticket;
   return (
-    <div>
-      <h2 className='text-lg font-bold'>{title}</h2>
-      <p>{content}</p>
-      <p className='italic'>Status: {status}</p>
+    <div className='flex justify-center animate-fade-from-top'>
+      <TicketItem {...ticket} isDetail={true} />
     </div>
   );
 };

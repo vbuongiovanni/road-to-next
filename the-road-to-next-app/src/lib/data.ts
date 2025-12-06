@@ -1,18 +1,6 @@
-export const enum TicketStatus {
-  Open = 'open',
-  InProgress = 'inProgress',
-  Closed = 'closed',
-  Blocked = 'blocked',
-}
+import { TicketStatus, TTicket } from '../features/ticket/types';
 
-export type Ticket = {
-  id: string;
-  title: string;
-  content: string;
-  status: TicketStatus;
-};
-
-export const initialTickets: Ticket[] = [
+export const initialTickets: TTicket[] = [
   {
     id: '1',
     title: 'Login form validation',
@@ -31,7 +19,7 @@ export const initialTickets: Ticket[] = [
     title: 'API rate limits',
     content:
       'Document current rate limits and expose headers in the public API responses.',
-    status: TicketStatus.Blocked,
+    status: TicketStatus.Closed,
   },
   {
     id: '4',

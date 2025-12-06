@@ -1,32 +1,19 @@
-import Link from 'next/link';
-import { initialTickets } from '@/data';
-import { Paths } from '@/paths';
-import { buildRoute } from '@/utils';
-
-export const TICKET_ICONS = {
-  open: '🟢',
-  inProgress: '⏳',
-  blocked: '⛔',
-  closed: '✅',
-};
+import { Heading } from '@/components/custom/heading';
+import { TicketItem } from '@/features/ticket/component/ticketItem';
+import { initialTickets } from '@/lib/data';
 
 const TicketsPage = () => {
   return (
-    <div>
-      <h2 className='text-lg font-bold'>Tickets Page</h2>
-      {initialTickets.map((ticket) => (
-        <div key={ticket.id}>
-          <div className='text-lg font-semibold'>
-            {TICKET_ICONS[ticket.status]} {ticket.status}
-          </div>
-          <h2 className='text-lg font-semibold'>{ticket.title}</h2>
-          <Link
-            href={buildRoute(Paths.Tickets, ticket.id)}
-            className='underline '>
-            View Details
-          </Link>
-        </div>
-      ))}
+    <div className='flex-1 flex flex-col gap-y-8'>
+      <Heading
+        title='Support Tickets'
+        description='Browse and manage your support tickets.'
+      />
+      <div className='flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top'>
+        {initialTickets.map((ticket) => (
+          <TicketItem key={ticket.id} {...ticket} />
+        ))}
+      </div>
     </div>
   );
 };
