@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Placeholder } from '@/components/custom/placeholder';
 import { buttonVariants } from '@/components/ui/button';
 import { TicketItem } from '@/features/ticket/component/ticketItem';
-import { initialTickets } from '@/lib/data';
+import { getTicket } from '@/features/ticket/queries/getTicket';
 import { Paths } from '@/lib/paths';
 import { buildRoute } from '@/lib/utils';
 
@@ -12,7 +12,7 @@ type TTicketPage = {
 
 const TicketPage = async ({ params }: TTicketPage) => {
   const { ticketId } = await params;
-  const ticket = initialTickets.find((t) => t.id === ticketId);
+  const ticket = await getTicket(ticketId);
   if (!ticket) {
     return (
       <Placeholder

@@ -4,17 +4,6 @@ import { calculateDifference, padZero } from './utils';
 
 export const Countdown = () => {
   const returnTime = useMemo(() => new Date('2025-12-12T20:08:00'), []);
-  const targetLabel = useMemo(
-    () =>
-      returnTime.toLocaleString('en-US', {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-    [returnTime]
-  );
 
   const [countdown, setCountdown] = useState(
     calculateDifference(returnTime, new Date())
