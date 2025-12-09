@@ -3,7 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { calculateDifference, padZero } from './utils';
 
 export const Countdown = () => {
-  const returnTime = useMemo(() => new Date('2025-12-12T20:08:00'), []);
+  // Anchor the target to Mountain Time (America/Denver) so it is timezone-agnostic for viewers
+  const returnTime = useMemo(
+    () => new Date('2025-12-12T20:08:00-07:00'),
+    []
+  );
 
   const [countdown, setCountdown] = useState(
     calculateDifference(returnTime, new Date())
