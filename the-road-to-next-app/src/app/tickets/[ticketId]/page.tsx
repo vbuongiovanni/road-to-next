@@ -1,10 +1,6 @@
-import Link from 'next/link';
-import { Placeholder } from '@/components/custom/placeholder';
-import { buttonVariants } from '@/components/ui/button';
+import { notFound } from 'next/navigation';
 import { TicketItem } from '@/features/ticket/component/ticketItem';
 import { getTicket } from '@/features/ticket/queries/getTicket';
-import { Paths } from '@/lib/paths';
-import { buildRoute } from '@/lib/utils';
 
 type TTicketPage = {
   params: Promise<{ ticketId: string }>;
@@ -13,20 +9,8 @@ type TTicketPage = {
 const TicketPage = async ({ params }: TTicketPage) => {
   const { ticketId } = await params;
   const ticket = await getTicket(ticketId);
-  if (!ticket) {
-    return (
-      <Placeholder
-        label='Ticket not found'
-        button={
-          <Link
-            href={buildRoute(Paths.Tickets)}
-            className={buttonVariants({ variant: 'outline' })}>
-            Go to Tickets
-          </Link>
-        }
-      />
-    );
-  }
+  if (!ticket) notFound();
+
   return (
     <div className='flex justify-center animate-fade-from-top'>
       <TicketItem {...ticket} isDetail={true} />

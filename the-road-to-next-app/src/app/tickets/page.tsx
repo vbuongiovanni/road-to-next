@@ -1,20 +1,22 @@
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Heading } from '@/components/custom/heading';
-import { TicketItem } from '@/features/ticket/component/ticketItem';
-import { getTickets } from '@/features/ticket/queries/getTickets';
+import { Spinner } from '@/components/custom/spinner';
+import { ErrorFallback } from '@/features/ErrorFallback';
+import { TicketList } from '@/features/ticket/component/TicketList';
 
-const TicketsPage = async () => {
-  const tickets = await getTickets();
+const TicketsPage = () => {
   return (
     <div className='flex-1 flex flex-col gap-y-8'>
       <Heading
         title='Support Tickets'
         description='Browse and manage your support tickets.'
       />
-      <div className='flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top'>
-        {tickets.map((ticket) => (
-          <TicketItem key={ticket.id} {...ticket} />
-        ))}
-      </div>
+      <ErrorBoundary fallback={<ErrorFallback />}>
+        <Suspense fallback={<Spinner />}>
+          <TicketList />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };
