@@ -17,7 +17,14 @@ export const TicketItem = (props: TTicketItem) => {
   const { id, title, content, status, isDetail = false } = props;
   const detailButton = (
     <Button variant='outline' size={'icon'} asChild>
-      <Link href={buildRoute(Paths.Tickets, id)} className='underline '>
+      {/* This is known as 'Router Cache' */}
+      {/* prefetch enabled: in a nutshell, Next will pre-load the linked page in the background for faster navigation as soon as this component is in the viewport. */}
+      {/* This is a subtype of Router Cache mechanism known as 'prefetch cache' or 'client-side cache' */}
+      {/* Alternatively, this can be accomplished on a Application-wide using experimental configs in next.config.ts. However, it's ill advised, as it's highly probable someone will run into stale data.*/}
+      <Link
+        prefetch
+        href={buildRoute(Paths.Tickets, id)}
+        className='underline '>
         {<LucideSquareArrowOutUpRight className='h-4 w-4' />}
       </Link>
     </Button>
