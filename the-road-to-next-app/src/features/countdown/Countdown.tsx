@@ -86,8 +86,8 @@ export const Countdown = ({ clickData }: TCountdown) => {
     setCoordinates((prev) => {
       const prevX = prev?.x ?? 0;
       const prevY = prev?.y ?? 0;
-      const deltaX = boundMinValue(Math.random() * 100, 35);
-      const deltaY = boundMinValue(Math.random() * 100, 35);
+      const deltaX = boundMinValue(Math.random() * 100, 45);
+      const deltaY = boundMinValue(Math.random() * 100, 45);
       const width = coordinateBounds.width ?? 0;
       const height = coordinateBounds.height ?? 0;
 
@@ -177,7 +177,7 @@ export const Countdown = ({ clickData }: TCountdown) => {
               onClick={handleSingleClick}
               onDoubleClick={handleDoubleClick}
               variant={'outline'}
-              className='cursor-pointer h-10 w-10 transition-transform duration-200 ease-out rounded-4xl [&_svg]:h-[35px] [&_svg]:w-[35px]'
+              className='cursor-pointer h-10 w-10 transition-transform duration-100 ease-out rounded-4xl [&_svg]:h-[35px] [&_svg]:w-[35px]'
               style={{
                 transform: `translate(${coordinates.x}px, ${coordinates.y}px)`,
               }}>
