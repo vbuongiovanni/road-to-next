@@ -1,12 +1,16 @@
 import clsx from 'clsx';
-import { LucideSquareArrowOutUpRight, LucideTrash } from 'lucide-react';
+import {
+  LucidePencil,
+  LucideSquareArrowOutUpRight,
+  LucideTrash,
+} from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Ticket } from '@/generated/prisma/client';
 import { Paths } from '@/lib/paths';
 import { buildRoute } from '@/lib/utils';
-import { deleteTicket } from '../actions/delete-ticket';
+import { deleteTicket } from '../actions/deleteTicket';
 import { TICKET_ICONS } from '../constants';
 
 type TTicketItem = Ticket & {
@@ -15,6 +19,7 @@ type TTicketItem = Ticket & {
 
 export const TicketItem = async (props: TTicketItem) => {
   const { id, title, content, status, isDetail = false } = props;
+
   const detailButton = (
     <Button variant='outline' size={'icon'} asChild>
       {/* This is known as 'Router Cache' */}
@@ -30,6 +35,14 @@ export const TicketItem = async (props: TTicketItem) => {
     </Button>
   );
 
+  const editButton = (
+    <Button variant='outline' size={'icon'} asChild>
+      <Link prefetch href={buildRoute(Paths.Tickets, id, 'edit')}>
+        {<LucidePencil className='h-4 w-4' />}
+      </Link>
+    </Button>
+  );
+
   const deleteButton = (
     <form action={deleteTicket.bind(null, id)}>
       <Button variant='outline' size={'icon'}>
@@ -40,11 +53,11 @@ export const TicketItem = async (props: TTicketItem) => {
 
   return (
     <div
-      className={clsx('flex flex-gap-1 w-full gap-x-1', {
+      className={clsx('flex flex-1 flex-gap-1 w-full gap-x-1', {
         'max-w-[420px]': !isDetail,
         'max-w-[600px]': isDetail,
       })}>
-      <Card key={id}>
+      <Card className='w-full' key={id}>
         <CardHeader>
           <CardTitle className='flex gap-x-2'>
             <span>{TICKET_ICONS[status]}</span>
@@ -62,7 +75,17 @@ export const TicketItem = async (props: TTicketItem) => {
         </CardContent>
       </Card>
       <div className='flex flex-col gap-y-1'>
-        {isDetail ? deleteButton : detailButton}
+        {isDetail ? (
+          <>
+            {editButton}
+            {deleteButton}
+          </>
+        ) : (
+          <>
+            {editButton}
+            {detailButton}
+          </>
+        )}
       </div>
     </div>
   );

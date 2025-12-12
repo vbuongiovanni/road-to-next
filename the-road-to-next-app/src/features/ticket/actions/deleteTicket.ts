@@ -1,6 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { setCookie } from '@/actions/cookie';
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 import { buildRoute } from '@/lib/utils';
@@ -17,5 +18,6 @@ export const deleteTicket = async (id: string) => {
   // then we would also need to revalidate that specific path as well. Otherwise, stale data would be served there as well.
   // revalidatePath(buildRoute(Paths.Tickets, id));
 
+  setCookie('toast', 'Ticket deleted');
   redirect(buildRoute(Paths.Tickets));
 };

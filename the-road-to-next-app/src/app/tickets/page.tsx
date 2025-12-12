@@ -1,9 +1,11 @@
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { CardCompact } from '@/components/custom/CardCompact';
 import { Heading } from '@/components/custom/heading';
 import { Spinner } from '@/components/custom/spinner';
 import { ErrorFallback } from '@/features/ErrorFallback';
 import { TicketList } from '@/features/ticket/component/TicketList';
+import { TicketUpsertForm } from '@/features/ticket/component/TicketUpsertForm';
 
 // This will make the entire page dynamic, thereby disabling the full-route cache that is applied to static pages.
 // export const dynamic = 'force-dynamic';
@@ -19,6 +21,12 @@ const TicketsPage = () => {
       <Heading
         title='Support Tickets'
         description='Browse and manage your support tickets.'
+      />
+      <CardCompact
+        className='w-full max-w-[420px] self-center'
+        title='Create Ticket'
+        description='A new ticket will be created'
+        content={<TicketUpsertForm />}
       />
       <ErrorBoundary fallback={<ErrorFallback />}>
         <Suspense fallback={<Spinner />}>
