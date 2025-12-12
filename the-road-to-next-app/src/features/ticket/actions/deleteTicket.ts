@@ -18,6 +18,6 @@ export const deleteTicket = async (id: string) => {
   // then we would also need to revalidate that specific path as well. Otherwise, stale data would be served there as well.
   // revalidatePath(buildRoute(Paths.Tickets, id));
 
-  setCookie('toast', 'Ticket deleted');
+  await setCookie('toast', 'Ticket deleted');
   redirect(buildRoute(Paths.Tickets));
 };

@@ -44,17 +44,17 @@ export const upsertTicket = async (
     });
 
     revalidatePath(Paths.Tickets);
-
-    if (id) {
-      setCookie('toast', 'Ticket updated');
-      redirect(buildRoute(Paths.Tickets));
-    }
-
-    return toActionState(
-      ActionStateStatus.Success,
-      id ? 'Ticket updated successfully.' : 'Ticket created successfully.'
-    );
   } catch (ex) {
+    console.error(ex);
     return fromErrorToActionState(ex, formData);
   }
+
+  if (id) {
+    await setCookie('toast', 'Ticket updated');
+    return redirect(buildRoute(Paths.Tickets));
+  }
+  return toActionState(
+    ActionStateStatus.Success,
+    id ? 'Ticket updated successfully.' : 'Ticket created successfully.'
+  );
 };

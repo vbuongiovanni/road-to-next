@@ -13,6 +13,14 @@ export const getCookieByKey = async (key: string) => {
   return cookieStore.get(key)?.value || null;
 };
 
+export const consumeCookiedByKey = async (key: string) => {
+  const message = await getCookieByKey(key);
+
+  await deleteCookieByKey(key);
+
+  return message;
+};
+
 export const deleteCookieByKey = async (key: string) => {
   await cookies().then((cookie) => {
     cookie.delete(key);
