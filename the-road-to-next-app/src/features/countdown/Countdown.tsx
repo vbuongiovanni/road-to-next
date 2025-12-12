@@ -13,7 +13,7 @@ type TCountdown = {
 
 export const Countdown = ({ clickData }: TCountdown) => {
   // Anchor the target to Mountain Time (America/Denver) so it is timezone-agnostic for viewers
-  const returnTime = useMemo(() => new Date('2025-12-12T20:19:00-07:00'), []);
+  const returnTime = useMemo(() => new Date('2025-12-12T20:14:00-07:00'), []);
 
   const [countdown, setCountdown] = useState(
     calculateDifference(returnTime, new Date())
@@ -139,7 +139,7 @@ export const Countdown = ({ clickData }: TCountdown) => {
   return (
     <div className='w-full'>
       <div className='mx-auto max-w-4xl rounded-3xl border border-white/10 bg-linear-to-br from-slate-900 via-slate-950 to-slate-900 px-6 py-8 text-slate-50 shadow-2xl'>
-        <p className='text-center font-bold text-2xl'>TODAYYY</p>
+        <p className='text-center font-bold text-2xl'>ONE FLIGHT AWAY!</p>
         <p className='text-center font-bold'>I Love you the mostest!</p>
         <div
           className='mt-6 grid grid-cols-3 gap-4'

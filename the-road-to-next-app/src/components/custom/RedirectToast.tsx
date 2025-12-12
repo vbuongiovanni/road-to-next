@@ -10,6 +10,7 @@ export const RedirectToast = () => {
   useEffect(() => {
     const runToast = async () => {
       getCookieByKey('toast').then(async (toastMessage) => {
+        console.log('toastMessage', toastMessage);
         if (toastMessage) {
           toast.success(toastMessage);
         }

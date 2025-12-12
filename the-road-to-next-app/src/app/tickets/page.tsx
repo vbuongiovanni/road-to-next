@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { CardCompact } from '@/components/custom/CardCompact';
 import { Heading } from '@/components/custom/heading';
+import { RedirectToast } from '@/components/custom/RedirectToast';
 import { Spinner } from '@/components/custom/spinner';
 import { ErrorFallback } from '@/features/ErrorFallback';
 import { TicketList } from '@/features/ticket/component/TicketList';
@@ -33,6 +34,7 @@ const TicketsPage = () => {
           <TicketList />
         </Suspense>
       </ErrorBoundary>
+      <RedirectToast />
     </div>
   );
 };
