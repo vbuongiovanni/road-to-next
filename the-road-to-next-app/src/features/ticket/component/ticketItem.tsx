@@ -13,7 +13,7 @@ type TTicketItem = Ticket & {
   isDetail?: boolean;
 };
 
-export const TicketItem = (props: TTicketItem) => {
+export const TicketItem = async (props: TTicketItem) => {
   const { id, title, content, status, isDetail = false } = props;
   const detailButton = (
     <Button variant='outline' size={'icon'} asChild>

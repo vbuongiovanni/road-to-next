@@ -18,4 +18,13 @@ const TicketPage = async ({ params }: TTicketPage) => {
   );
 };
 
+// By adding this, we effectively convert this dynamic page into a static page.
+// Next will pre-render all the paths specified here at build time and serve them as static pages.
+// This is particularly useful for pages that don't change often and can benefit from faster load times.
+// However, this comes at the cost of not being able to handle new or updated tickets without a rebuild or adding invalidation logic.
+// export async function generateStaticParams() {
+//   const tickets = await getTickets();
+//   return tickets.map((ticket) => ({ ticketId: ticket.id }));
+// }
+
 export default TicketPage;

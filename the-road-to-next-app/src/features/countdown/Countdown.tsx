@@ -139,27 +139,27 @@ export const Countdown = ({ clickData }: TCountdown) => {
   return (
     <div className='w-full'>
       <div className='mx-auto max-w-4xl rounded-3xl border border-white/10 bg-linear-to-br from-slate-900 via-slate-950 to-slate-900 px-6 py-8 text-slate-50 shadow-2xl'>
-        <p className='text-center font-bold text-1xl'>
-          LESS THAN TWO DAYYYYYSSS!
-        </p>
+        <p className='text-center font-bold text-2xl'>TODAYYY</p>
         <p className='text-center font-bold'>I Love you the mostest!</p>
         <div
-          className='mt-6 grid grid-cols-2 gap-4 md:grid-cols-4'
+          className='mt-6 grid grid-cols-3 gap-4'
           aria-live='polite'
           role='status'>
-          {units.map((unit) => (
-            <div
-              key={unit.label}
-              className='relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 py-2 text-center shadow-lg backdrop-blur'>
-              <div className='text-[clamp(32px,4vw,56px)] font-bold tabular-nums tracking-tight text-white'>
-                {unit.value}
+          {units
+            .filter((unit) => unit.value !== '0')
+            .map((unit) => (
+              <div
+                key={unit.label}
+                className='relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 py-2 text-center shadow-lg backdrop-blur'>
+                <div className='text-[clamp(32px,4vw,56px)] font-bold tabular-nums tracking-tight text-white'>
+                  {unit.value}
+                </div>
+                <div className='text-[11px] uppercase tracking-[0.3em] text-slate-300'>
+                  {unit.label}
+                </div>
+                <div className='pointer-events-none absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-white/25 to-transparent' />
               </div>
-              <div className='text-[11px] uppercase tracking-[0.3em] text-slate-300'>
-                {unit.label}
-              </div>
-              <div className='pointer-events-none absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-white/25 to-transparent' />
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       <p className='my-10 text-center font-bold text-xl'>

@@ -13,5 +13,9 @@ export const deleteTicket = async (id: string) => {
   // Otherwise, stale data will be served to the end user.
   revalidatePath(Paths.Tickets);
 
+  // If, hypotherically speaking, we were to statically generate the ticket detail pages (see ./src/app/tickets/[ticketId]/page.tsx),
+  // then we would also need to revalidate that specific path as well. Otherwise, stale data would be served there as well.
+  // revalidatePath(buildRoute(Paths.Tickets, id));
+
   redirect(buildRoute(Paths.Tickets));
 };
