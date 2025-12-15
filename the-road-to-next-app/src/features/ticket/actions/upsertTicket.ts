@@ -22,6 +22,13 @@ const upsertTicketSchema = z.object({
     .string()
     .min(1, 'Content is required')
     .max(1024, 'Content must be at most 1024 characters'),
+  bounty: z.coerce
+    .number()
+    .positive()
+    .transform((val) => Number(val)),
+  deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'Deadline must be a valid date',
+  }),
 });
 
 // id can either be passed in via form, or via binding when using .bind in the form action
@@ -35,6 +42,8 @@ export const upsertTicket = async (
     const data = upsertTicketSchema.parse({
       title: formData.get('title'),
       content: formData.get('content'),
+      bounty: formData.get('bounty'),
+      deadline: formData.get('deadline'),
     });
 
     await prisma.ticket.upsert({

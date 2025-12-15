@@ -5,11 +5,11 @@ import { FieldError } from './FieldError';
 import { TActionState } from './utils';
 
 type TFormItem = {
-  initialValue?: string;
+  initialValue?: string | number;
   label: string;
   actionState: TActionState;
   fieldName: string;
-  inputType?: 'text' | 'textarea';
+  inputType?: 'text' | 'textarea' | 'number' | 'date';
 };
 
 export const FormItem = ({
@@ -30,7 +30,7 @@ export const FormItem = ({
       <InputComponent
         id={fieldName}
         name={fieldName}
-        type='text'
+        type={inputType}
         defaultValue={defaultValue}
       />
       <FieldError actionState={actionState} fieldName={fieldName} />

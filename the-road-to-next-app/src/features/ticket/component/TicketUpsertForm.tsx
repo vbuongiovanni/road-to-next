@@ -38,6 +38,24 @@ export const TicketUpsertForm = ({ ticket }: TTicketUpsertForm) => {
         fieldName='content'
         inputType='textarea'
       />
+
+      <div className='flex justify-between gap-x-2 mb-1'>
+        <FormItem
+          initialValue={ticket?.deadline}
+          label='Deadline'
+          actionState={actionState}
+          fieldName='deadline'
+          inputType='date'
+        />
+
+        <FormItem
+          initialValue={ticket?.bounty}
+          label='Bounty'
+          actionState={actionState}
+          fieldName='bounty'
+          inputType='number'
+        />
+      </div>
     </Form>
   );
 };

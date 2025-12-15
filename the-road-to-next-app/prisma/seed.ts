@@ -13,35 +13,47 @@ const tickets = [
     content:
       'Improve error messages and add client-side validation for the login form.',
     status: 'Open' as const,
+    bounty: 499,
+    deadline: new Date().toISOString().split('T')[0],
   },
   {
     title: 'Landing page hero',
     content: 'Update hero copy and add a secondary CTA to improve conversion.',
     status: 'Open' as const,
+    bounty: 499,
+    deadline: new Date().toISOString().split('T')[0],
   },
   {
     title: 'API rate limits',
     content:
       'Document current rate limits and expose headers in the public API responses.',
     status: 'Closed' as const,
+    bounty: 900,
+    deadline: new Date().toISOString().split('T')[0],
   },
   {
     title: 'Mobile navigation',
     content:
       'Refactor the mobile nav to reduce layout shifts on smaller breakpoints.',
     status: 'Open' as const,
+    bounty: 499,
+    deadline: new Date().toISOString().split('T')[0],
   },
   {
     title: 'Analytics events audit',
     content:
       'Ensure all checkout steps emit analytics events with consistent payloads.',
     status: 'InProgress' as const,
+    bounty: 1200,
+    deadline: new Date().toISOString().split('T')[0],
   },
   {
     title: 'Legacy job clean-up',
     content:
       'Remove deprecated background job queue after the migration is verified.',
     status: 'Closed' as const,
+    bounty: 700,
+    deadline: new Date().toISOString().split('T')[0],
   },
 ];
 
