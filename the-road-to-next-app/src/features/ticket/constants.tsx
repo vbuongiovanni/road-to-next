@@ -7,3 +7,9 @@ export const TICKET_ICONS: Record<$Enums.TicketStatus, JSX.Element> = {
   InProgress: <LucidePencil />,
   Closed: <LucideCircleCheck />,
 };
+
+export const TICKET_STATUS_LABELS: Record<$Enums.TicketStatus, string> = {
+  Open: 'Open',
+  InProgress: 'In Progress',
+  Closed: 'Closed',
+};

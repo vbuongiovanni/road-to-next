@@ -1,9 +1,13 @@
 'use client';
-import { useActionState } from 'react';
+import { useActionState, useRef } from 'react';
 import { Form } from '@/components/custom/form/Form';
 import { FormItem } from '@/components/custom/form/FormItem';
-import { createEmptyActionState } from '@/components/custom/form/utils';
+import {
+  createEmptyActionState,
+  TActionState,
+} from '@/components/custom/form/utils';
 import { Ticket } from '@/generated/prisma/client';
+import { fromCent } from '@/utils/currency';
 import { upsertTicket } from '../actions/upsertTicket';
 
 type TTicketUpsertForm = {
@@ -16,11 +20,20 @@ export const TicketUpsertForm = ({ ticket }: TTicketUpsertForm) => {
     createEmptyActionState()
   );
 
+  const calendarImperativeHandleRef = useRef<{ callback: () => void } | null>(
+    null
+  );
+
+  const onSuccessCallback = (_: TActionState) => {
+    calendarImperativeHandleRef.current?.callback();
+  };
+
   return (
     // id can either be passed in via form, or via binding when using .bind in the form action
     <Form
       actionState={actionState}
       action={action}
+      onSuccessCallback={onSuccessCallback}
       buttonLabel={ticket ? 'Update Ticket' : 'Create Ticket'}>
       {/* <Input id='id' name='id' type='hidden' defaultValue={id} /> */}
 
@@ -46,10 +59,11 @@ export const TicketUpsertForm = ({ ticket }: TTicketUpsertForm) => {
           actionState={actionState}
           fieldName='deadline'
           inputType='date'
+          imperativeHandleRef={calendarImperativeHandleRef}
         />
 
         <FormItem
-          initialValue={ticket?.bounty}
+          initialValue={ticket?.bounty ? fromCent(ticket.bounty) : undefined}
           label='Bounty'
           actionState={actionState}
           fieldName='bounty'

@@ -34,7 +34,7 @@ export const toActionState = (
 
 export const fromErrorToActionState = (
   error: unknown,
-  formData: FormData
+  formData?: FormData
 ): TActionState => {
   let fieldErrors: TFieldErrors = {};
   if (error instanceof z.ZodError) {

@@ -12,6 +12,7 @@ import {
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 import { buildRoute } from '@/lib/utils';
+import { toCent } from '@/utils/currency';
 
 const upsertTicketSchema = z.object({
   title: z
@@ -46,10 +47,15 @@ export const upsertTicket = async (
       deadline: formData.get('deadline'),
     });
 
+    const dbData = {
+      ...data,
+      bounty: toCent(data.bounty), // convert to cents
+    };
+
     await prisma.ticket.upsert({
       where: { id: id || '' },
-      update: data,
-      create: data,
+      update: dbData,
+      create: dbData,
     });
 
     revalidatePath(Paths.Tickets);

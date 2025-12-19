@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
       'simple-import-sort': simpleImportSort,
     },
     rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_$',
+          varsIgnorePattern: '^_$',
+          caughtErrorsIgnorePattern: '^_$',
+        },
+      ],
       'simple-import-sort/imports': [
         'error',
         {

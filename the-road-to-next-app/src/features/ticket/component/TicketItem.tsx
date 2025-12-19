@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import {
+  LucideMoreVertical,
   LucidePencil,
   LucideSquareArrowOutUpRight,
-  LucideTrash,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -16,8 +16,9 @@ import {
 import { Ticket } from '@/generated/prisma/client';
 import { Paths } from '@/lib/paths';
 import { buildRoute } from '@/lib/utils';
-import { deleteTicket } from '../actions/deleteTicket';
+import { toCurrencyFromCents } from '@/utils/currency';
 import { TICKET_ICONS } from '../constants';
+import { TicketMoreMenu } from './TicketMoreMenu';
 
 type TTicketItem = Ticket & {
   isDetail?: boolean;
@@ -56,13 +57,15 @@ export const TicketItem = async (props: TTicketItem) => {
       </Link>
     </Button>
   );
-
-  const deleteButton = (
-    <form action={deleteTicket.bind(null, id)}>
-      <Button variant='outline' size={'icon'}>
-        <LucideTrash className='h-4 w-4' />
-      </Button>
-    </form>
+  const moreMenu = (
+    <TicketMoreMenu
+      ticket={props}
+      trigger={
+        <Button variant={'outline'} size={'icon'}>
+          <LucideMoreVertical className='h-4 w-4' />
+        </Button>
+      }
+    />
   );
 
   return (
@@ -89,15 +92,15 @@ export const TicketItem = async (props: TTicketItem) => {
         </CardContent>
         <CardFooter className='flex justify-between'>
           <p className='text-sm text-muted-foreground'>{deadline}</p>
-          <p className='text-sm text-muted-foreground'>${bounty}</p>
+          <p className='text-sm text-muted-foreground'>
+            {toCurrencyFromCents(bounty)}
+          </p>
         </CardFooter>
       </Card>
       <div className='flex flex-col gap-y-1'>
+        {moreMenu}
         {isDetail ? (
-          <>
-            {editButton}
-            {deleteButton}
-          </>
+          <>{editButton}</>
         ) : (
           <>
             {editButton}
