@@ -24,7 +24,7 @@ export const TicketUpsertForm = ({ ticket }: TTicketUpsertForm) => {
     null
   );
 
-  const onSuccessCallback = (_: TActionState) => {
+  const onSuccessCallback = () => {
     calendarImperativeHandleRef.current?.callback();
   };
 
