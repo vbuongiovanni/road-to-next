@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 
 export const ThemeSwitch = () => {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const handleSwitch = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };

@@ -2,10 +2,7 @@
 import { useActionState, useRef } from 'react';
 import { Form } from '@/components/custom/form/Form';
 import { FormItem } from '@/components/custom/form/FormItem';
-import {
-  createEmptyActionState,
-  TActionState,
-} from '@/components/custom/form/utils';
+import { createEmptyActionState } from '@/components/custom/form/utils';
 import { Ticket } from '@/generated/prisma/client';
 import { fromCent } from '@/utils/currency';
 import { upsertTicket } from '../actions/upsertTicket';
