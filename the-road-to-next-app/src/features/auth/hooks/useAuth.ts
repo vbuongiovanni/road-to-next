@@ -1,6 +1,6 @@
-import { User } from 'lucia';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { User } from '@/generated/prisma';
 import { getAuth } from '../queries/getAuth';
 
 export const useAuth = () => {

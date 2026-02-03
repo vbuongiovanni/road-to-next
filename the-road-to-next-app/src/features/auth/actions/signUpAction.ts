@@ -1,9 +1,9 @@
 'use server';
 
 import { hash } from '@node-rs/argon2';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { setCookie } from '@/actions/cookie';
 import {
   ActionStateStatus,
   fromErrorToActionState,
@@ -11,7 +11,8 @@ import {
   toActionState,
 } from '@/components/custom/form/utils';
 import { Prisma } from '@/generated/prisma';
-import { lucia } from '@/lib/lucia';
+import { SESSION_COOKIE_NAME } from '@/lib/constants';
+import { createNewSession } from '@/lib/session';
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 
@@ -66,15 +67,8 @@ export const signUpAction = async (
     const user = await prisma.user.create({
       data: { username, email, passwordHash },
     });
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-
-    const cookiesHeader = await cookies();
-    cookiesHeader.set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
-    );
+    const session = await createNewSession(user.id);
+    await setCookie(SESSION_COOKIE_NAME, session.id);
   } catch (ex) {
     if (
       ex instanceof Prisma.PrismaClientKnownRequestError &&

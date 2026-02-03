@@ -1,41 +1,25 @@
 'use server';
-import { cookies } from 'next/headers';
 import { cache } from 'react';
-import { lucia } from '@/lib/lucia';
+import { deleteCookieByKey, getCookieByKey, setCookie } from '@/actions/cookie';
+import { SESSION_COOKIE_NAME } from '@/lib/constants';
+import { validateSession } from '@/lib/session';
 
 export const getAuth = cache(async () => {
-  const cookie = await cookies();
-  console.log('lucia.sessionCookieName', lucia.sessionCookieName);
-  const sessionId = cookie.get(lucia.sessionCookieName)?.value || null;
-  console.log('sessionId', sessionId);
+  const sessionId = await getCookieByKey(SESSION_COOKIE_NAME);
   if (!sessionId) {
     return {
       user: null,
       session: null,
     };
   } else {
-    const user = await prisma.user.findUnique({
-      where: { username },
-    });
-
-    const result = await lucia.validateSession(sessionId);
+    const result = await validateSession(sessionId);
 
     try {
-      if (result.session && result.session.fresh) {
-        const sessionCookie = lucia.createSessionCookie(result.session.id);
-        cookie.set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
-      }
-      if (!result.session) {
-        const sessionCookie = lucia.createBlankSessionCookie();
-        cookie.set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
+      if (result.session) {
+        await setCookie(SESSION_COOKIE_NAME, result.session);
+        return result;
+      } else {
+        await deleteCookieByKey(SESSION_COOKIE_NAME);
       }
     } catch {
       // do nothing, in case this runs in a RSC
