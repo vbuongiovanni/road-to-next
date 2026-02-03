@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ticket } from '@/generated/prisma/client';
+import { Ticket } from '@/generated/prisma';
 import { prisma } from '@/lib/prisma';
 
 // the 'cache' function from React will memoize the result of this function based on its arguments
@@ -11,5 +11,5 @@ export const getTicket = React.cache(
     return await prisma.ticket.findUnique({
       where: { id: ticketId },
     });
-  }
+  },
 );

@@ -23,18 +23,20 @@ export const createEmptyActionState = (): TActionState => ({
 
 export const toActionState = (
   status: ActionStateStatus,
-  message: string
+  message: string,
+  formData?: FormData,
 ): TActionState => {
   return {
     ...createEmptyActionState(),
     status,
+    payload: formData,
     message,
   };
 };
 
 export const fromErrorToActionState = (
   error: unknown,
-  formData?: FormData
+  formData?: FormData,
 ): TActionState => {
   let fieldErrors: TFieldErrors = {};
   if (error instanceof z.ZodError) {

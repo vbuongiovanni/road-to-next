@@ -1,4 +1,4 @@
-import { SuccessfulClicks } from '@/generated/prisma/client';
+import { SuccessfulClicks } from '@/generated/prisma';
 import { prisma } from '@/lib/prisma';
 
 export const getClicks = async (): Promise<SuccessfulClicks | null> => {

@@ -1,6 +1,6 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { SuccessfulClicks } from '@/generated/prisma/client';
+import { SuccessfulClicks } from '@/generated/prisma';
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 

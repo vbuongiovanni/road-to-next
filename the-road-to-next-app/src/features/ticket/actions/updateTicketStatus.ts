@@ -6,14 +6,14 @@ import {
   fromErrorToActionState,
   toActionState,
 } from '@/components/custom/form/utils';
-import { TicketStatus } from '@/generated/prisma/enums';
+import { TicketStatus } from '@/generated/prisma';
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 
 // id can either be passed in via form, or via binding when using .bind in the form action
 export const updateTicketStatus = async (
   id: string | undefined,
-  status: TicketStatus
+  status: TicketStatus,
 ) => {
   try {
     await prisma.ticket.update({
@@ -28,6 +28,6 @@ export const updateTicketStatus = async (
   await setCookie('toast', 'Status updated');
   return toActionState(
     ActionStateStatus.Success,
-    'Status updated successfully.'
+    'Status updated successfully.',
   );
 };

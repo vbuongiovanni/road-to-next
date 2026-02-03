@@ -3,7 +3,7 @@ import { useActionState, useRef } from 'react';
 import { Form } from '@/components/custom/form/Form';
 import { FormItem } from '@/components/custom/form/FormItem';
 import { createEmptyActionState } from '@/components/custom/form/utils';
-import { Ticket } from '@/generated/prisma/client';
+import { Ticket } from '@/generated/prisma';
 import { fromCent } from '@/utils/currency';
 import { upsertTicket } from '../actions/upsertTicket';
 
@@ -14,11 +14,11 @@ type TTicketUpsertForm = {
 export const TicketUpsertForm = ({ ticket }: TTicketUpsertForm) => {
   const [actionState, action] = useActionState(
     upsertTicket.bind(null, ticket?.id),
-    createEmptyActionState()
+    createEmptyActionState(),
   );
 
   const calendarImperativeHandleRef = useRef<{ callback: () => void } | null>(
-    null
+    null,
   );
 
   const onSuccessCallback = () => {

@@ -1,6 +1,6 @@
 import { LucideCircleCheck, LucideFileText, LucidePencil } from 'lucide-react';
 import { JSX } from 'react';
-import { $Enums } from '@/generated/prisma/client';
+import { $Enums } from '@/generated/prisma';
 
 export const TICKET_ICONS: Record<$Enums.TicketStatus, JSX.Element> = {
   Open: <LucideFileText />,

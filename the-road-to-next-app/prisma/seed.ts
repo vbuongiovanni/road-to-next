@@ -1,11 +1,10 @@
 import 'dotenv/config';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../src/generated/prisma/client';
+import { PrismaClient } from '../src/generated/prisma';
 
 const connectionString = `${process.env.DATABASE_URL}`;
 
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+// const adapter = new PrismaPg({ connectionString });
+const prisma = new PrismaClient({ datasourceUrl: connectionString });
 
 const tickets = [
   {
@@ -62,7 +61,7 @@ const seed = async () => {
   console.log('Seeding tickets...');
   await prisma.ticket.findMany().then(async (existingTickets) => {
     const ticketsToCreate = tickets.filter(
-      (t) => !existingTickets.some((et) => et.title === t.title)
+      (t) => !existingTickets.some((et) => et.title === t.title),
     );
     return await prisma.ticket.createMany({
       data: ticketsToCreate,

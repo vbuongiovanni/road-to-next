@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Ticket, TicketStatus } from '@/generated/prisma/client';
+import { Ticket, TicketStatus } from '@/generated/prisma';
 import { deleteTicket } from '../actions/deleteTicket';
 import { updateTicketStatus } from '../actions/updateTicketStatus';
 import { TICKET_STATUS_LABELS } from '../constants';
@@ -38,7 +38,7 @@ export const TicketMoreMenu = ({ ticket, trigger }: TTicketMoreMenu) => {
   const handleUpdateTicketStatus = async (ticketStatus: string) => {
     const resultPromise = updateTicketStatus(
       ticket.id,
-      ticketStatus as TicketStatus
+      ticketStatus as TicketStatus,
     );
 
     toast.promise(resultPromise, {

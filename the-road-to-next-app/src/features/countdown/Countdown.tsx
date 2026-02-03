@@ -3,7 +3,7 @@ import JSConfetti from 'js-confetti';
 import { LucideTarget } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { SuccessfulClicks } from '@/generated/prisma/client';
+import { SuccessfulClicks } from '@/generated/prisma';
 import { incrementClick } from './actions/incrementClick';
 import { calculateDifference, padZero } from './utils';
 
@@ -16,7 +16,7 @@ export const Countdown = ({ clickData }: TCountdown) => {
   const returnTime = useMemo(() => new Date('2025-12-12T20:14:00-07:00'), []);
 
   const [countdown, setCountdown] = useState(
-    calculateDifference(returnTime, new Date())
+    calculateDifference(returnTime, new Date()),
   );
   const [isStarted, setIsStarted] = useState(false);
 

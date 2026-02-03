@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Ticket } from '@/generated/prisma/client';
+import { Ticket } from '@/generated/prisma';
 import { Paths } from '@/lib/paths';
 import { buildRoute } from '@/lib/utils';
 import { toCurrencyFromCents } from '@/utils/currency';

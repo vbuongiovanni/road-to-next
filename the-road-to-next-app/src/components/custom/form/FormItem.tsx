@@ -10,7 +10,7 @@ type TFormItem = {
   label: string;
   actionState: TActionState;
   fieldName: string;
-  inputType?: 'text' | 'textarea' | 'number' | 'date';
+  inputType?: 'text' | 'textarea' | 'number' | 'date' | 'password' | 'email';
   imperativeHandleRef?: React.RefObject<{ callback: () => void } | null>;
 };
 
