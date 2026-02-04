@@ -2,14 +2,28 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { setCookie } from '@/actions/cookie';
-import { fromErrorToActionState } from '@/components/custom/form/utils';
+import {
+  ActionStateStatus,
+  fromErrorToActionState,
+  toActionState,
+} from '@/components/custom/form/utils';
+import { getAuth } from '@/features/auth/queries/getAuth';
+import { isOwner } from '@/features/auth/utils/isOwner';
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 import { buildRoute } from '@/lib/utils';
 
 export const deleteTicket = async (id: string) => {
+  const { user } = await getAuth();
   try {
-    await prisma.ticket.delete({ where: { id } });
+    if (id) {
+      const existingTicket = await prisma.ticket.findUnique({ where: { id } });
+      if (!existingTicket || !isOwner(user, existingTicket)) {
+        return toActionState(ActionStateStatus.Error, 'Not authorized');
+      }
+    }
+
+    await prisma.ticket.delete({ where: { id, userId: user?.id } });
   } catch (ex) {
     return fromErrorToActionState(ex);
   }

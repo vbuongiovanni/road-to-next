@@ -6,6 +6,8 @@ import {
   fromErrorToActionState,
   toActionState,
 } from '@/components/custom/form/utils';
+import { getAuth } from '@/features/auth/queries/getAuth';
+import { isOwner } from '@/features/auth/utils/isOwner';
 import { TicketStatus } from '@/generated/prisma';
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
@@ -15,9 +17,17 @@ export const updateTicketStatus = async (
   id: string | undefined,
   status: TicketStatus,
 ) => {
+  const { user } = await getAuth();
   try {
+    if (id) {
+      const existingTicket = await prisma.ticket.findUnique({ where: { id } });
+      if (!existingTicket || !isOwner(user, existingTicket)) {
+        return toActionState(ActionStateStatus.Error, 'Not authorized');
+      }
+    }
+
     await prisma.ticket.update({
-      where: { id: id || '' },
+      where: { id: id || '', userId: user?.id },
       data: { status },
     });
 

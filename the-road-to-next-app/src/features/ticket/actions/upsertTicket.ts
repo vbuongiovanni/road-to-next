@@ -9,6 +9,8 @@ import {
   TActionState,
   toActionState,
 } from '@/components/custom/form/utils';
+import { getAuthOrRedirect } from '@/features/auth/queries/getAuthOrRedirect';
+import { isOwner } from '@/features/auth/utils/isOwner';
 import { Paths } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 import { buildRoute } from '@/lib/utils';
@@ -36,8 +38,17 @@ const upsertTicketSchema = z.object({
 export const upsertTicket = async (
   id: string | undefined,
   _actionState: TActionState,
-  formData: FormData
+  formData: FormData,
 ) => {
+  const { user } = await getAuthOrRedirect();
+
+  if (id) {
+    const existingTicket = await prisma.ticket.findUnique({ where: { id } });
+    if (!existingTicket || !isOwner(user, existingTicket)) {
+      return toActionState(ActionStateStatus.Error, 'Not authorized', formData);
+    }
+  }
+
   try {
     //   const id: string = formData.get('id') as string;
     const data = upsertTicketSchema.parse({
@@ -49,6 +60,7 @@ export const upsertTicket = async (
 
     const dbData = {
       ...data,
+      userId: user?.id,
       bounty: toCent(data.bounty), // convert to cents
     };
 
@@ -70,6 +82,7 @@ export const upsertTicket = async (
   }
   return toActionState(
     ActionStateStatus.Success,
-    id ? 'Ticket updated successfully.' : 'Ticket created successfully.'
+    id ? 'Ticket updated successfully.' : 'Ticket created successfully.',
+    formData,
   );
 };

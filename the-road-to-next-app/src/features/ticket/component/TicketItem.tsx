@@ -13,6 +13,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { getAuth } from '@/features/auth/queries/getAuth';
+import { isOwner } from '@/features/auth/utils/isOwner';
 import { Ticket } from '@/generated/prisma';
 import { Paths } from '@/lib/paths';
 import { buildRoute } from '@/lib/utils';
@@ -21,10 +23,15 @@ import { TICKET_ICONS } from '../constants';
 import { TicketMoreMenu } from './TicketMoreMenu';
 
 type TTicketItem = Ticket & {
+  user: {
+    username: string;
+  };
   isDetail?: boolean;
 };
 
 export const TicketItem = async (props: TTicketItem) => {
+  const { user: authUser } = await getAuth();
+
   const {
     id,
     title,
@@ -33,9 +40,12 @@ export const TicketItem = async (props: TTicketItem) => {
     isDetail = false,
     deadline,
     bounty,
+    user,
   } = props;
 
-  const detailButton = (
+  const isTicketOwner = isOwner(authUser, props);
+
+  const detailButton = !isTicketOwner ? (
     <Button variant='outline' size={'icon'} asChild>
       {/* This is known as 'Router Cache' */}
       {/* prefetch enabled: in a nutshell, Next will pre-load the linked page in the background for faster navigation as soon as this component is in the viewport. */}
@@ -48,16 +58,17 @@ export const TicketItem = async (props: TTicketItem) => {
         {<LucideSquareArrowOutUpRight className='h-4 w-4' />}
       </Link>
     </Button>
-  );
+  ) : null;
 
-  const editButton = (
+  const editButton = isTicketOwner ? (
     <Button variant='outline' size={'icon'} asChild>
       <Link prefetch href={buildRoute(Paths.Tickets, id, 'edit')}>
         {<LucidePencil className='h-4 w-4' />}
       </Link>
     </Button>
-  );
-  const moreMenu = (
+  ) : null;
+
+  const moreMenu = isTicketOwner ? (
     <TicketMoreMenu
       ticket={props}
       trigger={
@@ -66,7 +77,7 @@ export const TicketItem = async (props: TTicketItem) => {
         </Button>
       }
     />
-  );
+  ) : null;
 
   return (
     <div
@@ -91,7 +102,9 @@ export const TicketItem = async (props: TTicketItem) => {
           </span>
         </CardContent>
         <CardFooter className='flex justify-between'>
-          <p className='text-sm text-muted-foreground'>{deadline}</p>
+          <p className='text-sm text-muted-foreground'>
+            {deadline} by {user?.username}
+          </p>
           <p className='text-sm text-muted-foreground'>
             {toCurrencyFromCents(bounty)}
           </p>
